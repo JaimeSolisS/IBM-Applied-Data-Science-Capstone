@@ -64,8 +64,10 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 def get_pie_chart(entered_site):
     if entered_site == 'ALL':
         # pie chart of total success launches  (the total count of class column)
-        fig = px.pie(spacex_df, values='class', names='Launch Site', title='Total Success Launches By Site')
-
+        fig = px.pie(spacex_df, 
+                    values='class', 
+                    names='Launch Site', 
+                    title='Total Success Launches By Site')
         return fig
     else:
         # return the outcomes piechart for a selected site
@@ -78,8 +80,10 @@ def get_pie_chart(entered_site):
         filtered_df.rename(columns = {'size':'class count'}, inplace = True)
         
         # pie chart of success (class=1) count and failed (class=0) count for the selected site.
-        fig = px.pie(filtered_df, values='class count', names='class',  title='Total Success Launches for site ' + str(entered_site))
-        
+        fig = px.pie(filtered_df, 
+                    values='class count',
+                    names='class',  
+                    title='Total Success Launches for site ' + str(entered_site))
         return fig
 
 # TASK 4:
@@ -97,7 +101,11 @@ def get_scatter_chart(entered_site, payload):
     if entered_site == 'ALL':
         
         # scatter chart of Correlation between Payload and Success for all Sites
-        fig = px.scatter(filtered_df, x="Payload Mass (kg)", y="class", color="Booster Version Category", title="Correlation between Payload and Success for all Sites")
+        fig = px.scatter(filtered_df, 
+                        x="Payload Mass (kg)", 
+                        y="class", 
+                        color="Booster Version Category", 
+                        title="Correlation between Payload and Success for all Sites")
         return fig
 
     else:
@@ -105,7 +113,11 @@ def get_scatter_chart(entered_site, payload):
         filtered_df = filtered_df[filtered_df["Launch Site"]==entered_site]
         
          # scatter chart of Correlation between Payload and Success for selected site
-        fig = px.scatter(filtered_df, x="Payload Mass (kg)", y="class", color="Booster Version Category",title="Correlation between Payload and Success for site " + str(entered_site))
+        fig = px.scatter(filtered_df, 
+                        x="Payload Mass (kg)", 
+                        y="class", 
+                        color="Booster Version Category",
+                        title="Correlation between Payload and Success for site " + str(entered_site))
         return fig
 
 
