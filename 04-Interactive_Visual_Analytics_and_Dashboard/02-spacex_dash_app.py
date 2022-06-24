@@ -84,6 +84,29 @@ def get_pie_chart(entered_site):
 
 # TASK 4:
 # Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as output
+# Function decorator to specify function input and output
+@app.callback(Output(component_id='success-payload-scatter-chart', component_property='figure'),
+              [Input(component_id='site-dropdown', component_property='value'),
+              Input(component_id="payload-slider", component_property="value")])
+def get_scatter_chart(entered_site, payload):
+    # filter dataframe with only relevant columns for chart
+    filtered_df = spacex_df[['Launch Site','Payload Mass (kg)', 'class', 'Booster Version Category']]
+    # filter dataframe for selected payload range 
+    filtered_df = filtered_df[filtered_df['Payload Mass (kg)'].between(payload[0],payload[1])]
+
+    if entered_site == 'ALL':
+        
+        # scatter chart of Correlation between Payload and Success for all Sites
+        fig = px.scatter(filtered_df, x="Payload Mass (kg)", y="class", color="Booster Version Category", title="Correlation between Payload and Success for all Sites")
+        return fig
+
+    else:
+        # filter data for selected launch site
+        filtered_df = filtered_df[filtered_df["Launch Site"]==entered_site]
+        
+         # scatter chart of Correlation between Payload and Success for selected site
+        fig = px.scatter(filtered_df, x="Payload Mass (kg)", y="class", color="Booster Version Category",title="Correlation between Payload and Success for site " + str(entered_site))
+        return fig
 
 
 # Run the app
